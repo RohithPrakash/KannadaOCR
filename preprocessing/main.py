@@ -42,4 +42,4 @@ if __name__ == "__main__":
         performOperation(sys.argv[1], sys.argv[2])
 
     else:
-        sys.exit("Wrong number of arguments passed.")
+        sys.exit("Incorrect number of arguments passed.")

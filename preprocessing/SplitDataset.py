@@ -88,6 +88,3 @@ def splitDataset(datasetPath, trainRatio, output):
     copyFiles(datasetPath, folders, train, test, output)
 
     print("Splitting completed in ", time() - start, " seconds")
-
-
-#splitDataset('../temp2/Img/', 0.8, '../temp2/')
