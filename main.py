@@ -21,6 +21,9 @@ def recognize(imagePath, storeSegmentedImagesAt="recognizer/segmentedImage",
         String: Recognized text
     """
 
+    from time import time
+    start = time()
+
     import os
     import cv2
     import numpy as np
@@ -62,8 +65,8 @@ def recognize(imagePath, storeSegmentedImagesAt="recognizer/segmentedImage",
         predictions[position[0] - 1][position[1] -
                                      1][position[2] - 1] = predictedCharacter
 
-    print("Note: Requires 'Noto Sans Kannada' font or equivalent to view output.")
-    print("Individually found characters are: ")
+    print("\nNote: Requires 'Noto Sans Kannada' font or equivalent to view output.")
+    print("\nIndividually found characters are: ")
     print(predictions)
 
     for i in range(len(predictions)):
@@ -73,17 +76,21 @@ def recognize(imagePath, storeSegmentedImagesAt="recognizer/segmentedImage",
             predictedString = predictedString + " "
         predictedString = predictedString + "\n"
 
-    print("The recognized text from the image is: ")
+    print("\nThe recognized text from the image is: ")
     print(predictedString)
 
-    if not os.path.exists(outputPath):
+    if outputPath and not os.path.exists(outputPath):
         print('Creating output directory...')
         os.makedirs(outputPath)
+        outputFile = open(os.path.join(outputPath, 'output.txt'), 'w')
+    else:
+        outputFile = open(os.path.join('output.txt'), 'w')
 
-    outputFile = open(os.path.join(outputPath, 'output.txt'), 'w')
-    outputFile.write(prediction)
+    outputFile.write(predictedString)
     outputFile.close()
-    print('Predicted text saved to output.txt')
+    print('Predicted text saved to', outputFile.name)
+
+    print("\nRecognition took", time() - start, "seconds")
 
     return predictedString
 
@@ -100,4 +107,4 @@ if __name__ == "__main__":
         prediction = recognize(
             sys.argv[1], storeSegmentedImagesAt=sys.argv[2], modelPath=sys.argv[3], outputPath=sys.argv[4])
     else:
-        sys.exit("Wrong number of arguments passed.")
+        sys.exit("Incorrect number of arguments passed.")
